@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import {connect} from "react-redux";
 
-function App() {
+
+function App(props) {
+
+  const plusButtonHandler = (id) => {
+    props.mathActionPlus(id);
+    console.log(id);
+  }
+
+  const minusButtonHandler = (id) => {
+    props.mathActionMinus(id);
+  }
+
+  const deleteButtonHandler = (id) => {
+    props.deleteCounter(id);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      {props.counters.map(el =>
+          <div key={el.id}>
+          <button onClick={() => minusButtonHandler(el.id)}>-1</button>&nbsp;
+          {el.number}&nbsp;
+          <button onClick={() => plusButtonHandler(el.id)}>+1</button>&nbsp;
+            <button onClick={()=>deleteButtonHandler(el.id)}>Delete</button>
+          </div>
+        )}
+
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  counters: state.counters,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  mathActionPlus: (id) => dispatch({type: "PLUS", payload: {id: id}}),
+  mathActionMinus:  (id) => dispatch({type: "MINUS", payload: {id: id}}),
+  deleteCounter: (id) => dispatch({type: "DELETE_COUNTER", payload: {id: id}})
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
