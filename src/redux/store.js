@@ -1,8 +1,13 @@
-import {applyMiddleware, createStore} from "redux";
-import counter from './reducers';
-import {composeWithDevTools} from "redux-devtools-extension";
+// Core
+import { createStore, applyMiddleware } from 'redux';
 
+// Instruments
 
-const store = createStore(counter, composeWithDevTools(applyMiddleware()));
+import { composeEnhancers, middleware, } from './init/middleware';
 
-export default store;
+import {rootReducer} from "./init/roodRedusser";
+
+export const store = createStore(
+    rootReducer,
+    composeEnhancers(applyMiddleware(...middleware)),
+);

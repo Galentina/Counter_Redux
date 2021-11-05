@@ -3,6 +3,7 @@ const initialState = {
         {id: 1, number: 10},
         {id: 2, number: 20},
         {id: 3, number: 30},
+        {id: 4, number: 40},
     ]
 };
 
@@ -10,28 +11,22 @@ const initialState = {
 
 const counter = (state = initialState, action) =>{
     switch (action.type) {
+
+        case 'ADD_COUNTER': {
+            console.log(action.payload);
+            return {...state, counters: action.payload};
+        }
         case 'DELETE_COUNTER': {
-            const newCounters = state.counters.filter(el => (el.id !== action.payload.id));
-            console.log(newCounters);
-            return {...state, counters: newCounters};
+            return {...state, counters: action.payload};
         }
 
         case 'PLUS': {
-            const newCounters = state.counters.map(el => {
-                    if (el.id === action.payload.id) return {...el, number: el.number + 1};
-                    else return el;
-                }
-            );
-            return {...state, counters: newCounters};
+            console.log("id1", action.payload);
+            return {...state, counters: action.payload};
         }
 
         case 'MINUS': {
-            const newCounters = state.counters.map(el => {
-                    if (el.id === action.payload.id) return {...el, number: el.number - 1};
-                    else return el;
-                }
-            );
-            return {...state, counters: newCounters};
+            return {...state, counters: action.payload};
         }
 
         default:
